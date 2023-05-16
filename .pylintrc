@@ -1,0 +1,51 @@
+[Master]
+init-hook='sys.path += ["./src"]'
+disable=missing-docstring,too-few-public-methods
+max-line-length=120
+generated-members=db.*
+ignore=src/app/migrations,migrations
+
+[SIMILARITIES]
+# Ignore comments when computing similarities.
+ignore-comments=yes
+
+# Ignore docstrings when computing similarities.
+ignore-docstrings=yes
+
+# Ignore imports when computing similarities.
+ignore-imports=yes
+
+# Minimum lines number of a similarity.
+min-similarity-lines=6
+
+[DESIGN]
+
+# Maximum number of arguments for function / method.
+max-args=3
+
+# Maximum number of attributes for a class (see R0902).
+max-attributes=7
+
+# Maximum number of boolean expressions in an if statement.
+max-bool-expr=3
+
+# Maximum number of branch for function / method body.
+max-branches=12
+
+# Maximum number of locals for function / method body.
+max-locals=7
+
+# Maximum number of parents for a class (see R0901).
+max-parents=3
+
+# Maximum number of public methods for a class (see R0904).
+max-public-methods=20
+
+# Maximum number of return / yield for function / method body.
+max-returns=6
+
+# Maximum number of statements in function / method body.
+max-statements=50
+
+# Minimum number of public methods for a class (see R0903).
+min-public-methods=2
