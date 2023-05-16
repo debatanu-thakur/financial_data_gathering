@@ -21,8 +21,6 @@ class RetryableRequests:
         stop=stop_after_attempt(MAX_RETRY_ATTEMPTS)
     )
     def _get_request(self, url, params):
-        print("URL", url)
-        print("params", params)
         response = requests.get(url, params=params)
         response.raise_for_status()
         return response

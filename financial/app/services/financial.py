@@ -11,7 +11,6 @@ class FinancialService(ValidationMixin):
         }
         len_data = len(all_data)
         offset = (page - 1) * limit
-        print("data - ", len(all_data))
         for i in range(offset, offset + limit):
             data = all_data[i]
             det = {
@@ -36,25 +35,23 @@ class FinancialService(ValidationMixin):
         """
         Gets the paginated search results based on input
         """
-        # self.validate_search_query(query_parameters)
 
-        print("Query params", query_parameters)
-
-        symbol, start_date, end_date, limit, page = ("",datetime.now(),datetime.now(), 5, 1)
+        symbol, start_date, end_date, limit, page = ("", "", "", 5, 1)
         query = Financial.query
         if 'symbol' in query_parameters:
             symbol = query_parameters["symbol"]
-            print("Symbol is ", symbol)
             query = query.filter(Financial.symbol==symbol)
         if 'start_date' in query_parameters:
             start_date = query_parameters["start_date"]
         if 'end_date' in query_parameters:
             end_date = query_parameters["end_date"]
-            query = query.filter(Financial.date.between(start_date, end_date))
         if 'limit' in query_parameters:
             limit = int(query_parameters['limit'])
         if 'page' in query_parameters:
             page = int(query_parameters['page'])
+
+        if start_date and end_date:
+            query = query.filter(Financial.date.between(start_date, end_date))
 
         response = query.all()
         return self._get_result(response, limit, page)

@@ -6,7 +6,6 @@ from requests.exceptions import HTTPError
 from app.requests import RetryableRequests
 from app.utils import AppException
 
-from app.constants import TMDB_V3_IMAGE_CONFIG, TMDB_V3
 
 @pytest.fixture()
 def retryable_requests():
@@ -19,7 +18,7 @@ def test_retryable_requests_get_request_success(retryable_requests):
         mock_response.status_code = 200
         mock_get.return_value = mock_response
 
-        response = retryable_requests.get_request(TMDB_V3_IMAGE_CONFIG)
+        response = retryable_requests.get_request("http://localhost:8000")
         
         assert response == mock_response
 
@@ -30,7 +29,7 @@ def test_retryable_requests_post_request_success(retryable_requests):
         mock_response.status_code = 200
         mock_post.return_value = mock_response
 
-        response = retryable_requests.post_request(TMDB_V3)
+        response = retryable_requests.post_request("http://localhost:800")
         
         assert response == mock_response
 
@@ -42,7 +41,7 @@ def test_retryable_requests_get_request_retry(retryable_requests):
         mock_response.raise_for_status.side_effect = HTTPError
         mock_get.return_value = mock_response
         with pytest.raises(AppException):
-            retryable_requests.get_request(TMDB_V3_IMAGE_CONFIG)
+            retryable_requests.get_request("http://localhost:8000")
         
         
 
@@ -54,9 +53,9 @@ def test_retryable_requests_post_request_retry(retryable_requests):
         mock_post.return_value = mock_response
 
         with pytest.raises(AppException):
-            retryable_requests.post_request(TMDB_V3)
+            retryable_requests.post_request("http://localhost:800")
 
-def test_retryable_requests_get_request_http_error(retryable_requests, capfd):
+def test_retryable_requests_get_request_http_error(retryable_requests):
     with mock.patch.object(requests, 'get') as mock_get:
         mock_response = mock.MagicMock()
         mock_response.status_code = 400
@@ -64,4 +63,4 @@ def test_retryable_requests_get_request_http_error(retryable_requests, capfd):
         mock_get.return_value = mock_response
 
         with pytest.raises(AppException):
-            retryable_requests.get_request(TMDB_V3_IMAGE_CONFIG)
+            retryable_requests.get_request("http://localhost:8000")
